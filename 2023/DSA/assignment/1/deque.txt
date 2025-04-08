@@ -1,0 +1,100 @@
+Implement a Deque
+This first exercise is worth 11 points out of the 20 total points for programming assignment 1.  In this exercise you will implement a toy version of a deque using two std::vectors, as described in Lecture 2.5.  The type of element the deque holds can be passed as a template parameter and we will test your solution instantiating the template type with int, double, char, and std::string.  You are not allowed to use std::deque itself in this exercise.  There are 5 groups of member functions that you need to implement for this assignment, which we now describe.
+
+Constructors:
+You will implement 3 constructors:
+
+  // Default constructor
+  MyDeque();
+  
+  // Construct a deque of size n where all entries are value initialised
+  // e.g. for a numeric template type T initialise to 0, if T is std::string
+  // initialise to the empty string
+  explicit MyDeque(int n);
+
+  // Construct a deque from an initializer list
+  MyDeque(std::initializer_list<T> vals);
+
+Front and Back
+Member functions to get the first and last element of the deque.  These functions should work in constant time.
+
+  // return the last element by reference
+  T& back();
+  // return the last element by const reference
+  // this one can be used on a const MyDeque
+  const T& back() const;
+  // return the first element by reference
+  T& front();
+  // return the first element by const reference
+  // this one can be used on a const MyDeque
+  const T& front() const;
+
+Operator[]
+Access an element of the deque by its index.  This function should work in constant time.
+
+  // Indexing operator.  Return by reference so entry can be modified.
+  T& operator[](int);
+  // const version can be used to access an entry of a const MyDeque
+  const T& operator[](int) const;
+Push/Pop Back/Front
+Add/Remove an element from the front or back of the deque.  These functions should work in constant amortised time.
+
+  // add an element to the back of the MyDeque
+  void push_back(T);
+  // remove last element
+  void pop_back();
+  // add an element to the front of the MyDeque
+  void push_front(T);
+  // remove first element
+  void pop_front();
+
+Functions Related to the Number of Elements
+Two functions related to the number of elements in the MyDeque.  These should work in constant time.
+
+  // does the MyDeque have any elements?
+  bool empty() const;
+  // Getter for the size
+  int size() const;
+The Code
+There are three files provided in the scaffold.  
+
+The header file myDeque.hpp contains the definitions of all member functions of the MyDeque class.  We provide a scaffold here, but you are free to add member variables and helper member functions as needed.
+
+The implementation file myDeque.cpp.  This is where you should implement all the required member functions.
+
+As usual we provide a file main.cpp for your own testing and debugging purposes.  This is the file that is compiled and executed when "Run" is pressed.  You can modify this file as you like.  The marker does not make use of this file.
+
+Testing
+When you press mark, we will check your implementation of MyDeque on 30 tests.  The first 25 of these tests are given to you in the main.cpp file.  The remaining 5 tests are hidden.  In order to check that your member functions satisfy the time requirements given above, there is a time limit for the running of the tests.  
+
+Marking
+The MyDeque exercise is worth 11 points out of the 20 points for programming assignment 1.  These points are broken down as follows
+
+Functionality (9 points) This will be marked automatically when you press the "mark" button and will be verified by the teaching team.  Each of the 30 tests has equal weight.  The total points you receive for functionality is 0.3*n if you pass n tests.  Note that your code has to compile and complete all the tests within the time limit in order to receive a score by the marker.
+
+Design (1 point) This will be marked by the grading team.  We will judge your code according to the following criteria
+
+ 1) Time complexity: All member functions work in the required complexity bound as stated above.
+
+ 2) Bugs: the tests do not catch all errors. The tutors will additionally look for bugs when reading your code.
+
+ 3) Succinctness: The path to the solution is clear and direct. No more code is used than necessary.
+
+Style (1 point) This will be marked by the grading team according to the following criteria:
+
+ 1) comments --- comments should explain blocks of code where the intention is not immediately clear from the code itself. 
+
+ 2) variable names --- variables are given names that explain their role and use. 
+
+ 3) formatting --- consistent formatting in indentation and use of braces.
+
+ 4) compiles without warnings.
+
+The style score is prorated by the number of member functions implemented.
+
+We will provide feedback about your code online via Ed.
+
+Submission
+You must submit your code by pressing the "mark" button on Ed. No other forms of submission will be accepted. You are welcome to develop your code elsewhere, but remember it must compile and run on Ed. As usual, we compile with g++ -std=c++20 -Wall -Wextra for this assignment. 
+
+You may submit as many times as you like before the due date.

@@ -1,0 +1,97 @@
+Logo
+31251
+–
+Ed Lessons
+
+
+This course has been archived
+
+, slide completed
+, slide completed
+, slide completed
+Use left and right arrow keys to adjust the split region size
+This lesson has ended. You will not be able to save edits or submit.
+Converting formula to postfix notation
+Special Notice: We have separated the testing of this exercise into two parts.  You must press mark both on this page and also on the next challenge window "Part II: Time Complexity" in order to qualify for all the points.  The task is exactly the same in both cases---you can copy/paste your code to the next challenge window.  We have separated the testing into a correctness part, this challenge, and a time complexity part, in the next window.  This is so that you can still receive points for correctness if in the next window Ed says your code takes too long to run and does not produce a score. 
+
+Description: In this exercise, you will implement a postorder traversal of an arithmetic expression tree and output the corresponding expression in postfix notation.  Recall the postfix notation for an arithmetic expression that we saw in tutorial Week 6.  There we saw that when we write an expression like "(2 + 4) * 8 + 3" in the funny postfix notation like "2 4 + 8 * 3 +", it is very easy to evaluate the expression using a stack.  In that tutorial description, we mentioned that the postfix notation can be obtained by doing a postorder traversal on an arithmetic expression tree representing the formula.  An arithmetic expression tree is a binary tree where each node represents an operation (such as addition, subtraction, multiplication, or division) or an operand (such as an integer).  The leaves of the tree are always operands.  In this exercise you will implement a postorder traversal on an arithmetic expression tree to output the corresponding arithmetic expression in postfix notation.  
+
+In more detail, in postorder.hpp we have a Node struct that looks as follows:
+
+12345
+struct Node {
+  std::string data {};
+  Node* left {};
+  Node* right {};
+};
+(Recall that a struct is just like a class except the default access is public instead of private.)  You will implement a function with the signature
+
+std::vector<std::string> postorder(Node* root);
+The input is a pointer to the root of a tree that represents an arithmetic expression.  In the example "(2 + 4) * 8 + 3", the input would be a pointer to a tree that look as follows:
+
+           +
+          / \
+         *   3
+        / \
+       +   8
+      / \
+     2   4
+
+In this example, the data member variable of the root is the string "+", the data member variable of its left child is the string "*", etc.  Your function will do a postorder traversal of the arithmetic expression tree and output a vector of strings with the content of the data variable of the nodes in the order visited.  Recall that a postorder traversal can be defined recursively: to do a postorder traversal of a tree we first do a postorder traversal of the left subtree of the root, then do a postorder traversal of the right subtree of the root, and finally we "process" the root.  In this case, "processing" a node means pushing it to the end of the output vector so that at the end of the algorithm the output vector contains the data from the nodes in the order they were processed in the postorder traversal.  For the formula pictured above, the output should be the vector {"2", "4", "+", "8", "*", "3", "+"}.  Note that you do not have to evaluate the expression.
+
+More examples:
+
+Formula: 1 + 1
+        +
+       / \
+      1   1
+When given a pointer to the root of this tree, your function should output {"1", "1", "+"}.
+
+Formula: 1 + 3 * 5
+        +
+       / \
+      1   *
+         / \
+        3   5
+When given a pointer to the root of this tree, your function should output {"1", "3", "5", "*", "+"}.
+
+Formula: 6 * 7 - 3 + 1
+        +
+       / \
+      -   1
+     / \
+    *   3
+   / \
+  6   7 
+
+When given a pointer to the root of this tree, your function should output {"6", "7", "*", "3", "-", "1", "+"}.
+
+Further examples can be found in the tests given in the main.cpp file.
+
+Your function should run in time 
+O
+(
+n
+)
+O(n).  
+
+Files:
+
+As usual there are three files on the scaffold.  main.cpp contains 5 tests of your function to get you started.  You are free to modify main.cpp for your own testing and debugging.  Your function should be implemented in postorder.cpp.  You are free to add additional helper functions to postorder.cpp if needed (in fact, I would recommend it).
+
+Grading:
+
+The grading for this exercise is separated into two parts.  When you press mark on this page, in addition to the 5 tests provided in main.cpp we will test the correctness of your code on 15.  There are 5 more tests given in the next challenge called Part II: Time Complexity.  You can use the same code for that part, but you must press mark there as well for your score to be registered on those 5 additional tests.  The 5 additional tests are large test cases that we use to make sure your code runs in time 
+O
+(
+n
+)
+O(n) rather than 
+Ω
+(
+n
+2
+)
+Ω(n 
+2
+ ).  By separating the testing into two parts, you can still get credit for correctness even if your program is too slow.  The grade for this exercise is purely based on the number of the 25 total tests you pass, i.e. your mark out of 100% is (number of tests passed) * 4%.  

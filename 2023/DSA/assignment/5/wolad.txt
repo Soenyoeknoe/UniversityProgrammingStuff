@@ -1,0 +1,122 @@
+Word Ladder
+Word Ladder is a word game where you are given two words and must transform one into the other by changing one letter at a time, such that each change results in a valid word.  For example if we want to change "four" into "five" we can do so in six steps via: four-tour-torr-tore-tire-fire-five (torr is a unit of pressure).  Given two words, we want to find the minimum number of moves it takes to change one into another, or determine that it is not possible to do so.  You can play this game online here.  We will use the same list of valid four letter words (the provided file 4words.txt) that is used by this website.
+
+Given a list of valid four letter words, we can construct an associated graph.  There is a vertex for every word on the list.  Two vertices are connected by an edge if and only if they differ by just one letter.  In other words, if two vertices are connected by an edge, we can move from one to the other in one step in a word ladder.  Finding the optimal solution to a word ladder then amounts to finding a shortest path in this graph.  In this challenge, you will write a function that given two four letter words will find a shortest path between them, that is will optimally solve the word ladder game (or say that there is no path between the words) for any two given input words.
+
+We let you choose the data structure you want to use to store the word graph.  You can make any additions to wordLadder.hpp you need to accommodate your design (this includes member variables and member functions).  You can also add any other libraries you may need.  Note that as usual your member functions should be implemented in wordLadder.cpp.
+
+In addition to finding shortest paths we ask you to implement several other primitives on this graph.  Let's look first at the easy member functions in wordLadder.hpp , which are addVertex, addEdge, isVertex, isEdge, and removeVertex.  All of addVertex, addEdge, isVertex, isEdge should work in 
+O
+(
+log
+⁡
+N
+)
+O(logN) time where 
+N
+N is the number of vertices.  removeVertex should work in time 
+O
+(
+D
+log
+⁡
+N
+)
+O(DlogN) where 
+D
+D is the number of neighbors of the vertex being removed.
+
+class WordLadder {
+ private:
+  // put whatever member variables you want to represent the graph here
+
+ public:
+  // default constructor doesn't have to do anything
+  WordLadder();
+  // construct word graph from words given in filename
+  explicit WordLadder(const std::string& filename);
+
+  // add vertex a to the graph with no neighbours if a is
+  // not already a vertex.  Otherwise, do nothing.
+  void addVertex(const std::string& a);
+  // if both a and b are vertices in the graph then add
+  // an edge between them.  Otherwise do nothing.
+  void addEdge(const std::string& a, const std::string& b);
+  // check if there is an edge between words a and b
+  bool isEdge(const std::string& a, const std::string& b) const;
+  // check if a is a vertex
+  bool isVertex(const std::string& a) const;
+  // remove vertex a from the graph
+  void removeVertex(const std::string& a);
+  ...
+};
+
+Most of these are self-explanatory.  One design decision we made which you will have to follow is that addEdge(a, b) will only add an edge between a and b if they are both already vertices in the graph.
+
+The main event is to implement the getShortestPath function.  The running time of this function should be 
+O
+(
+E
+)
+O(E), where 
+E
+E is the number of edges in the graph.  Note that if there is no path between the two input words you should return an empty vector.
+
+  // solve the word ladder problem between origin and dest.
+  // output a vector whose first element is origin, last element is dest,
+  // and where each intermediate word is a valid word and differs from the
+  // previous one by a single letter. Moreover the size of this vector
+  // should be as small as possible, i.e. it lists vertices on a shortest
+  // path from origin to dest. If there is no path between origin and dest
+  // return an empty vector.
+  std::vector<std::string>
+  getShortestPath(const std::string& origin, const std::string& dest);
+
+Another interesting function to implement is listComponents.  This returns a std::map<std::string, int>.  The size of this map is the number of connected components in the graph.  For each connected component there is a std::pair<std::string, int> where the first element of the pair is an example word in that connected component, and the int is the number of words in that connected component.  The example word can be any word in the connected component.  The running time of this function should be 
+O
+(
+E
++
+N
+log
+⁡
+N
+)
+O(E+NlogN) where 
+E
+E is the number of edges and 
+N
+N is the number of vertices.
+
+  // compute all the connected components in the graph.  The output is
+  // a std::map<std::string, int>.  The size of the map should be the
+  // number of connected components.  For each connected component give the
+  // name of a word in the connected component (the std::string part of the
+  // pair) and the number of words in that connected component (the int part).
+  std::map<std::string, int> listComponents();
+Grading: This part of the assignment is worth 15 points.  The points are divided up as follows:
+
+Functionality (10 points): 20 tests are given in main.cpp and your code is tested against an additional 4 tests when you press "mark".  We do things a bit differently this time as Ed does not give us enough time to check all the tests when you press mark.  Therefore both the tests in main and the tests when you hit mark will be graded.  Each test in main.cpp is worth 0.1 points (for a total of 2 points).  Each of the 4 tests run by the marker is worth 2 points.  This gives the total of 10 points.  In the marker there are 3 tests of the getShortestPath function, and one test of the listComponents function.
+
+Design (2.5 points) This will be marked by the grading team. We will judge your code according to the following criteria
+
+1) Member functions work within the given time complexity bounds.
+
+ 2) Bugs: the tests do not catch all errors. The graders will additionally look for bugs when reading your code. Does your code pass other test cases we can think of?
+
+ 3) Succinctness: The path to the solution is clear and direct. No more code is used than necessary.
+
+Style (2.5 points) This will be marked by the grading team according to the following criteria:
+
+ 1) comments --- comments should explain blocks of code where the intention is not immediately clear from the code itself. 
+
+ 2) variable names --- variables are given names that explain their role and use. 
+
+ 3) formatting --- consistent formatting in indentation and use of braces.
+
+ 4) compiles without warnings.
+
+Submission
+You must submit your code by pressing the "mark" button on Ed. No other forms of submission will be accepted. You are welcome to develop your code elsewhere, but remember it must compile and run on Ed. As usual, we compile with g++ -std=c++20 -Wall -Wextra for this assignment. 
+
+You may submit as many times as you like before the due date.

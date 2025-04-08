@@ -1,0 +1,55 @@
+Matching Nuts and Bolts
+The third and final exercise is worth 3 points out of the 20 points for programming assignment 1.  This exercise models the following problem.  You have a bag of n nuts and a bag of n bolts.  You are guaranteed that for every nut there is a matching bolt and vice versa.  You want to pair up each nut with its matching bolt.  The catch is that you cannot directly measure the size of a nut, nor can you compare the size of one nut with another nut. The same is true for the bolts.  The only thing you can do is compare a nut to a bolt (or bolt to nut).  When you compare a nut to a bolt, you can tell if the nut fits the bolt, is too small for the bolt, or is too big for the bolt.  
+
+We have modelled this problem by making a Nut class and Bolt class.  Each class just has one member variable, an int size_, to denote its size.  This variable is private and has no getter so we cannot directly access the size of a Nut or Bolt.  What you can do is compare a Nut with a Bolt.  All of the comparison operators <, <=, ==, >=, > are defined between a nut and a bolt (or a bolt and a nut).  So for example you can say:
+
+// initialise Nut with size 5
+Nut n {5};
+// initialise Bolt with size 7
+Bolt b {7};
+if (n < b) {
+    // do something
+} else if (n == b) {
+    // do something else
+}
+The Nut and Bolt classes are specified in the files nuts_and_bolts.cpp and nuts_and_bolts.hpp.  Please do not modify these files.  The only operations you need for this exercise are the comparison operators between nuts and bolts.  To help with debugging we also provide the facility to print out the size of a nut or bolt in the normal way, like this:
+
+std::vector<Bolt> bolts { Bolt {5}, Bolt {3} };
+for (Bolt b : bolts) {
+    std::cout << b << ' ';
+}
+std::cout << '\n';
+Task
+Your task is to implement a function with the signature
+
+void matchNutsAndBolts(std::vector<Nut>& nuts, std::vector<Bolt>& bolts);
+Implement this function in the file match.cpp.  The inputs to this function will always satisfy the promise that 
+
+They are the same size.
+
+For every nut n in nuts there is a bolt b in bolts with n == b and likewise for every bolt b in bolts there is a nut n in nuts with b == n.
+
+matchNutsandBolts should rearrange the elements of nuts and bolts so that nuts[i] == bolts[i]   for each i = 0, ..., nuts.size()-1.  In other words the function pairs each nut with a bolt that fits it.  This function should only rearrange the elements of nuts and bolts, at the end of the function these vectors must contain the same elements with which they started.  There may be multiple nuts of the same size in the input vector.  Your solution should be able to handle duplicate values.
+
+When you hit "mark" your function will be checked against 30 test cases.  We have set a time limit for the passing of these test cases.  Your function should be able to solve a random instance of size 100,000 in under a second.  The straightforward 
+Θ
+(
+n
+2
+)
+Θ(n 
+2
+ ) algorithm of successively matching each nut to its corresponding bolt will cause the marker to time out.  
+
+Hint: Think about how you might apply the idea of quicksort to this problem!
+
+The code
+There are 5 files provided in the scaffold.  The files nuts_and_bolts.hpp and nuts_and_bolts.cpp contain the declarations and implementations of the Nut and Bolt classes.  Please do not modify these files.  The marker uses a fixed version of the nuts_and_bolts files and does not recognise any changes you make to these files.  You should implement your solution in the file match.cpp.  As usual, we provide main.cpp for you to test and debug your solution.  The marker does not make use of main.cpp, you can modify it as you like.  This time the marker will test your solution on a set of test cases disjoint from those given in main.cpp.
+
+Grading
+This part of the assignment is worth 3 points.  The grading is purely based on test cases.  When you hit "mark" your code will be tested on 30 test cases.  Each test case is worth 0.1 points.  Your points for this assignment will be the number of test cases passed times 0.1.  For this exercise the marking test cases do not overlap with those we provided in main.cpp.
+
+Submission
+You must submit your code by pressing the "mark" button on Ed. No other forms of submission will be accepted. You are welcome to develop your code elsewhere, but remember it must compile and run on Ed. As usual, we compile with g++ -std=c++20 -Wall -Wextra for this assignment. 
+
+You may submit as many times as you like before the due date.

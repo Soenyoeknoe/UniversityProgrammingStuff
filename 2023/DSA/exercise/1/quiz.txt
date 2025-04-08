@@ -1,0 +1,84 @@
+Passed 5 of 5 questions (100%)
+This quiz is open book and open compiler--you can run the snippets of code to test them out.  The only time limit is the deadline.  You only have one attempt for each question.
+
+Question 1
+Submitted1 point
+Consider the following code snippet:
+
+int x;
+std::cout << "the value of x is " << x << '\n';
+What will this code print out?
+
+
+
+
+Explanation
+This is undefined behaviour.  C++ does not automatically initialise built-in types to a default value, a performance optimisation inherited from C.  This line will simply allocate memory for an integer and does not need to initialise this memory with anything; typically x will take on whatever value was already written at this memory location.
+
+Question 2
+Submitted1 point
+Consider the following code:
+
+int x = 5;
+int* ptr = &x;
+x = x + 5;
+std::cout << *ptr;
+What does this code print out?
+
+
+
+
+Question 3
+Submitted1 point
+After executing the code 
+
+int x = 20;
+int* ptr = &x;
+the state of memory looks as follows:
+
+
+In this picture, each cell represents 1 byte of memory and the number underneath a cell is its address.  Thus x occupies the bytes of memory with addresses 1-4 and ptr occupies the bytes of memory with addresses 5-12.  What is the value of ptr?
+
+
+
+
+
+
+Explanation
+The address of a variable is the address of the first byte of memory it occupies.  The variable ptr holds the address of x, and the address of x is 1 in this picture.
+
+Question 4
+Submitted1 point
+Say that we have the same code and state of memory from the last question.
+
+int x = 20;
+int* ptr = &x;
+
+What is the value of *ptr ?
+
+
+
+
+
+Question 5
+Submitted1 point
+Consider the code:
+
+void doSomething(int x) {
+    ...
+}
+
+int main() {
+    int x = 3;
+    doSomething(x);
+    std::cout << "now x is " << x << '\n';
+    return 0;
+}
+
+The body of the doSomething function is hidden from us, but we are guaranteed that it executes successfully and follows best coding practices. What is printed out here?
+
+
+
+
+Explanation
+The argument to doSomething is passed by value, so the parameter x that is used in this function is initialised with a copy of the calling x.  Assignments to the parameter x in the function doSomething do not affect the calling x.

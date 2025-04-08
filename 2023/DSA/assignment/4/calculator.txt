@@ -1,0 +1,80 @@
+Calculator
+The first part of assignment 2 is a continuation of the Stack Calculator you built in Tutorial Week 6.  There you wrote a program that evaluated an arithmetic expression given in postfix notation, like 3 5 +, instead of more familiar infix notation, like 3 + 5.  In this part of the assignment you will complete the construction of a calculator for infix expressions by writing a function to convert an infix arithmetical expression into a postfix one.  
+
+Here is the important part of the calc.hpp header file:
+
+namespace Calc {
+// type is either '+', '-', '*', '/' for the operators or 'n' to indicate a number
+// in the case of a number val holds its integer value.
+struct Token {
+  char type {};
+  int val {};
+};
+
+std::vector<Token> tokenise(const std::string&);
+std::vector<Token> infixToPostfix(const std::vector<Token>&);
+int evalPostfix(const std::vector<Token>&);
+int eval(const std::string&);
+
+}     // namespace Calc
+
+The function tokenise takes a string of an arithmetic expression like "(3+5) * 2 - 3" and outputs a vector of Tokens.  A Token has 2 parts. The first part is a char that represents the token type.  It is one of the operators '+', '-', '*', '/' or 'n' to indicate that the token holds a number.  In the case the Token holds a number, the second member variable, val, holds the integer value of the number.  In the case of an operator the val member variable can be ignored (and is left as 0).  As an example, on input "(3+5) * 2 - 3" the tokeniser function would output { {'(', 0}, {'n', 3}, {'+', 0}, {'n', 5}, {')', 0}, {'*',0}, {'n', 2}, {'-', 0}, {'n', 3} }.  
+
+The function you are to implement is infixToPostfix.  This function takes a vector of tokens derived from an infix expression and converts it into a vector of tokens in postfix notation.  We will describe how to do this below.  For now we continue reviewing the functions in calc.hpp.  The function evalPostfix provided for you.  This function is essentially from Tutorial Week 6 and evaluates an arithmetic expression in postfix notation.  The function eval puts all the parts together to evaluate an infix expression: 
+
+int Calc::eval(const std::string& expression) {
+  std::vector<Token> tokens = tokenise(expression);
+  std::vector<Token> postfix = infixToPostfix(tokens);
+  return evalPostfix(postfix);
+}
+Implementation:
+
+You should implement the infixToPostfix function in the file calc.cpp.  There is a famous algorithm to go from infix notation to postfix notation due to Dijkstra called the shunting yard algorithm.  We describe the algorithm here and give pseudocode for it.  See also the wikipedia article.  Note that the wikipedia article talks about a more general situation where the expression can also contain functions like 
+sin
+⁡
+x
+sinx.  We do not have to worry about this case.
+
+In order to correctly convert an infix expression into a postfix one, it is important to note the precedence of operations.  '+' and '-' have the equal precedence, and '*' and '/' have equal precedence which is greater than that of '+' and '-'.  You will need to represent the precedence of all these operators somehow in your program.  
+
+vector of Tokens output;
+vector of Tokens operatorStack;
+for each Token t in the input
+    if the token is a number, push it back to the output;
+    else if the token is '(', push it back to the operatorStack;
+    else if the token is ')', pop tokens off of the operatorStack
+        and push them back onto output until you reach '('.  Pop
+        '(' off the operatorStack too;
+    else:
+        As long as there operators on operatorStack that are not '(':
+            if the operator at the top of the operatorStack 
+            has >= precedence to t, push it onto output and pop it 
+            off of the operatorStack.
+        Push back t to the operatorStack.
+// At this point we have finished iterating over the input
+reverse operatorStack and append it to the end of output. 
+
+Grading: This part of the assignment is worth 10 points.  The points are divided up as follows:
+
+Functionality (6 points): This is graded purely on the basis of passing test cases.  When you hit mark your code will be run on 20 test cases.  Your functionality score is 0.3 times the number of test cases you pass.
+
+Design (2 points) This will be marked by the grading team. We will judge your code according to the following criteria
+
+ 1) Bugs: the tests do not catch all errors. The tutors will additionally look for bugs when reading your code.
+
+ 2) Succinctness: The code is concise and clear
+
+Style (2 points) This will be marked by the grading team according to the following criteria:
+
+ 1) comments --- comments should explain blocks of code where the intention is not immediately clear from the code itself. 
+
+ 2) variable names --- variables are given names that explain their role and use. 
+
+ 3) formatting --- consistent formatting in indentation and use of braces.
+
+ 4) compiles without warnings.
+
+Submission
+You must submit your code by pressing the "mark" button on Ed. No other forms of submission will be accepted. You are welcome to develop your code elsewhere, but remember it must compile and run on Ed. As usual, we compile with g++ -std=c++20 -Wall -Wextra for this assignment. 
+
+You may submit as many times as you like before the due date.

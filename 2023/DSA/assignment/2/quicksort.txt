@@ -1,0 +1,35 @@
+Quicksort Benchmark
+This exercise an exploration of quicksort: you will investigate different ways to improve the performance of the basic version of quicksort discussed in lecture.  This exercise is worth 6 out of the 20 points for programming assignment 1.  You should try at least 3 variations of the quicksort algorithm and record your observations about its performance in the file "Quicksort Report" which appears on the left hand side menu.  As in the Fibonacci tutorial, we include the Stopwatch class so you can time the algorithms on different inputs to report on what you see.
+
+We provide a working basic version of quicksort using the Lomuto Partition algorithm with which you can start.  Here are the three variations we want you to try:
+
+1. Typically the base case of quicksort is when the size of the vector to be sorted is at most one.  In this case the vector is already sorted.  On a vector of size n, the base case will be reached n times.  All these function calls on small vectors can be time consuming.  Write a function with the signature
+
+void insertionSortBaseCase(vecIter begin, vecIter end); 
+
+that does the base case differently.  When begin and end define a range that is smaller than some threshold, then sort this range using insertion sort.  It is typically suggested that this change sees the most improvement when the threshold for switching to insertion sort is on vectors of size 8-16.  Play around with different thresholds and see if you notice improvements over the basic version of quicksort.  Record your observations in the next challenge window "Quicksort Report".
+
+2.  What is the running time of the basic version of quicksort provided on a vector that is already sorted?  Record your answer in the "Quicksort Report".  We will now make a change to improve the running time of quicksort on a vector that is already sorted by implementing "median of 3" pivot selection.  In lecture, we always just used the first element in the range as the pivot element.  In median of 3 pivot selection we look at the first, middle, and last entries of the vector in the current range and use the element in between the maximum and minimum values of these three as the pivot.  Add median of 3 pivot selection to your insertionSortBaseCase function in the function
+
+void median3InsertionSortBaseCase(vecIter begin, vecIter end);
+What is the running time of this quicksort with median of 3 pivot selection on a vector that is already sorted?  Record your answer in the "Quicksort Report".
+
+3. We leave the third variation up to you.  Try something and see if you can make quicksort faster.  You might consider another means of choosing the pivot, perhaps taking the pivot to be a random element in the vector.  Or you may look at a different partition algorithm, for example the Hoare Partition algorithm or Dijkstra's Partition algorithm.  For ease of our testing, please give your third variation this function name:
+
+void thirdVariation(vecIter begin, vecIter end);
+In the "Quicksort Report" record your observations about this third variation.  Does it lead to faster results on any particular kinds of inputs?
+
+Files
+We include 4 files on the scaffold.  Your code should be implemented in the quicksort.cpp file.  When you hit "mark" we test the three variations on test cases to make sure they correctly sort.  We also provide main.cpp with test cases and some sample examples of how to measure the running times of a sorting variation on different inputs.  Finally we include the Stopwatch class in stopwatch.hpp for you to measure the performance of your algorithms.
+
+Marking
+When you hit mark all three of the functions insertionSortBaseCase, median3InsertionSortBaseCase, and thirdVariation are run on tests case to check if they correctly sort.  You must hit mark for us to see your code to be graded.  The next challenge file on the left menu is "Quicksort Report".  This is where you should record your observations about this exercise.  For each variation measure its performance on different kinds of inputs and inputs of different sizes and report on your results.  You must "submit" on the quicksort report in order for it to be graded.  The grading team has no access to it otherwise.  
+
+Each variation will be graded under the following rubric:
+
+Code is correct, succinct, and readable (1 point): 1 point is based on the code itself.  The code should pass the test cases and be written in good style that is succinct and readable.
+
+Observations about the code (1 point): 1 point is given based on your reflections about the code.  You should measure the performance of the variation (for example using the Stopwatch class) on different kinds of inputs (already sorted, many duplicate entries, random, etc.) and inputs of different sizes and record what you see.  We include a template of how to do this in the scaffold.
+
+Compiling
+For this exercise we compile with g++ -std=c++20 -Wall -Wextra -O3.  The O3 option tells the compiler to optimise the code as much as it can.  It is always a good idea to measure performance with full compiler optimisations enabled.  Keep this in mind if you work on this assignment locally.

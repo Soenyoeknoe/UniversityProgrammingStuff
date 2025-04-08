@@ -1,0 +1,111 @@
+Coding Question
+Verifying Shortest Paths
+Let 
+G
+G be a weighted and directed graph with 
+n
+n vertices labeled 
+0
+,
+1
+,
+…
+,
+n
+−
+1
+0,1,…,n−1.  All edge weights of 
+G
+G will be integers which can possibly be negative.  We are interested in finding the length of a shortest path from vertex 
+0
+0 to every other vertex in the graph and the graph can be very large.
+
+Luckily, our friend has access to a supercomputer and was able to compute the length of a shortest path from vertex 
+0
+0 to every other vertex for us.  The problem is that we don't trust our friend---we would like to verify for ourselves that the numbers are correct.  As the graph is so large, we need an algorithm to do this that runs in time 
+O
+(
+E
+)
+O(E) where 
+E
+E is the number of edges.
+
+Details:
+Your task is to write a function with the signature:
+
+bool verify(const std::vector<int>& distTo, const Graph& G);
+
+When 
+G
+G has 
+n
+n vertices, distTo is a vector of size 
+n
+n where distTo[i] is the claimed length of a shortest path from vertex 
+0
+0 to vertex 
+i
+i.  The function should return true if distTo[i] is equal to the length of a shortest path from vertex 
+0
+0 to vertex 
+i
+i for every vertex 
+i
+i, and false otherwise.
+
+Important Notes:
+
+You may assume that every vertex in the graph is reachable from vertex 
+0
+0.  
+
+You may assume that distTo[i] is at least the length of a shortest path from vertex 
+0
+0 to vertex 
+i
+i.  Thus you just need to check if there is a shorter path from 
+0
+0 to 
+i
+i than the length claimed by distTo.
+
+If 
+G
+G has a negative weight cycle verify should return false.
+
+Graph Class:
+We use a graph class very similar to those used in the tutorials.
+
+class Graph {
+ private:
+  std::vector<std::unordered_map<int, int> > adjList {};
+
+ public:
+  // construct empty graph with n vertices
+  explicit Graph(int n);
+  void addEdge(int from, int to, int weight);
+  int size() const;
+  ...
+}
+
+We represent the graph in a variable called adjList which is a vector of std::unordered_map<int, int> .   adjList[i] is an unordered_map where the keys are the names of out-adjacent neighbours of i and the corresponding value is the weight of the edge directed from i to the key.  For this challenge the edge weights will be ints.  We can iterate over the out-adjacent neighbours of a vertex using the neighbours  member function provided in the Graph class:
+
+  using iterator = std::vector<std::unordered_map<int, int> >::const_iterator;
+
+  // return iterator to a particular vertex
+  iterator neighbours(int a) const {
+    return adjList.begin() + a;
+  }
+Thus you can say 
+
+for (const auto& [neighbour, weight] : *(G.neighbours(i))) { \\ do something with neighbour}
+to iterate over the out-adjacent neighbours of i and get the weight of the edge from i to neighbour.
+
+Implementation and Grading:
+As usual, implement your solution in the graph.cpp file.  We provide some test cases in main.cpp to get you started.  You are free to modify main.cpp as you like.  When you hit "mark" your code is tested on 20 test cases.  Your code must complete these 20 test cases in 15 seconds in order to get a score.  If your solution runs in time 
+O
+(
+E
+)
+O(E) this should be no problem.  Your score out of 100% is 5% times the number of test cases you pass.  This coding portion of the final is worth 5% of your grade for the course.

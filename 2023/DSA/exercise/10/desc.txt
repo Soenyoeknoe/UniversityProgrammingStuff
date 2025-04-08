@@ -1,0 +1,231 @@
+Island Hopping
+Today we are visiting a chain of islands in the Tasman Sea.  There are 
+N
+N islands in this chain which are imaginatively named 
+0
+,
+1
+,
+2
+,
+…
+,
+N
+−
+1
+0,1,2,…,N−1.  We start at island 
+0
+0 and want to make our way to island 
+N
+−
+1
+N−1.  
+
+This chain of islands has a very unusual ferry system.  There is a ferry that goes from island 
+i
+i to island 
+i
++
+1
+i+1 for all 
+i
+=
+0
+,
+…
+,
+N
+−
+2
+i=0,…,N−2.  There is also a ferry that goes from island 
+i
+i to island 
+i
++
+2
+i+2 for all 
+i
+=
+0
+,
+…
+,
+N
+−
+3
+i=0,…,N−3.  Each ferry has an associated cost.  Sometimes the cost of a ferry can even be negative as an incentive to visit an island, that is you are paid to take the ferry!  We want to find the total cost of the cheapest sequence of ferries to go from island 
+0
+0 to island 
+N
+−
+1
+N−1.  The total cost is the sum of the cost of each ferry taken.  Your task for this exercise is to write a function
+
+double islandHop(const Graph& G);
+
+to do this.  The cost of the ferries is encoded by the edge weights of a weighted and directed graph 
+G
+G.  Note that the function just returns the total cost of the trip ( a double) and does not have to return which ferries to take.
+
+More Details:
+The input will be a Graph on 
+N
+N vertices.  The graph will always have an edge from vertex 
+i
+i to 
+i
++
+1
+i+1 for 
+i
+=
+0
+,
+…
+,
+N
+−
+2
+i=0,…,N−2 and an edge from vertex 
+i
+i to vertex 
+i
++
+2
+i+2 for 
+i
+=
+0
+,
+…
+,
+N
+−
+3
+i=0,…,N−3.  As an example, when 
+N
+=
+5
+N=5 the edges of the graph will look as follows.
+
+
+Each edge will additionally have a (possibly negative) edge weight.  Your task is to compute the minimum sum of edge weights of a path from vertex 
+0
+0 to vertex 
+N
+−
+1
+N−1.
+
+Example 1:
+
+
+In this case the minimum cost ferry journey from 0 to 1 has cost 0.5.
+
+Example 2:
+
+
+In this case the minimum cost of a ferry journey from 
+0
+0 to 
+3
+3 is 
+1.5
+1.5 by going from 
+0
+0 to 
+1
+1 and then 
+1
+1 to 
+3
+3.
+
+Example 3:
+
+
+In this case the minimum cost of a ferry journey is 
+1.8
+1.8 by going from island 0 to island 1 to island 2 to island 3.  
+
+Graph Class:
+The graph class is similar to those we have used in tutorials.
+
+// Class for directed graphs with edge weights
+class Graph {
+ public:
+  struct Edge {
+    double weight {};
+    int from {};
+    int to {};
+    auto operator<=>(const Edge&) const = default;
+  };
+
+ private:
+  std::vector<std::set<Edge> > adjList {};
+
+ public:
+  // default constructor
+  Graph();
+  // construct graph with n vertices and optionally provide
+  // a vector of edges
+  explicit Graph(int n, std::vector<Edge> = {});
+
+  void addEdge(const Edge&);
+  bool isEdge(int, int) const;
+  double getEdgeWeight(int, int) const;
+  int numVertices() const;
+  ...
+};
+
+You can get the weight of the edge between vertex 
+i
+i and vertex 
+j
+j with the getEdgeWeight(i, j) member function.  This function will throw an error if there is not an edge between 
+i
+i and 
+j
+j.  You already know exactly which edges will be present in an island graph of size 
+N
+N, but you can also use the isEdge function to first check if an edge exists before calling getEdgeWeight.
+
+Other useful primitives are provided to iterate over the neighbours of a vertex: 
+
+ // let the user interface with the graph via a const iterator
+  // const so they can't change our graph with the iterator
+  using iterator = std::vector<std::set<Edge> >::const_iterator;
+
+  // cbegin returns const iterator pointing to first element of adjList
+  iterator begin() const {
+    return adjList.cbegin();
+  }
+
+  iterator end() const {
+    return adjList.cend();
+  }
+
+  // return iterator to a particular vertex
+  iterator neighbours(int a) const {
+    return adjList.cbegin() + a;
+  }
+
+For example you can say:
+
+for (const Graph::Edge& e : *G.neighbours(v)) { /* do something with e */ }
+
+to process the edges leaving a vertex v.
+
+We also provide a function Graph generateRandomIslandInstance(int N, unsigned seed); to generate random instances like those in the hidden test cases.  Here 
+N
+N is the number of vertices in the Graph created, and seed is used as the seed in a pseudorandom generator.  This is a free function (not part of any class) declared in graph.hpp and defined in graph.cpp.
+
+Grading:
+On an instance with 
+N
+N islands, your solution should work in time 
+O
+(
+N
+)
+O(N).  We provide 10 test cases for you to get started with in main.cpp.  When you press mark, your solution will be tested against these 10 test cases plus an additional 10 more hidden test cases.  Your mark out of 100% will be 5% times the number of test cases you pass.
